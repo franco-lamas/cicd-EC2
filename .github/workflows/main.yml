@@ -39,6 +39,9 @@ jobs:
     steps:
       - name: Checkout the files
         uses: actions/checkout@v2
+      - name: Clean EC2
+        run: | 
+              sudo rm /var/www/html/
       - name: Deploy to Server 1
         uses: easingthemes/ssh-deploy@main
         env:
@@ -46,8 +49,7 @@ jobs:
           REMOTE_HOST: ${{ secrets.HOST_DNS_STAGING }}
           REMOTE_USER: ${{ secrets.USERNAME_STAGING }}
           TARGET: ${{ secrets.TARGET_DIR_STAGING }}
-        run: | 
-              sudo rm /var/www/html/
+
 
           
 
