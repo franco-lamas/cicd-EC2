@@ -41,7 +41,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Clean EC2
         run: | 
-              sudo rm /var/www/html/
+              sudo rm -r /var/www/html/
       - name: Deploy to Server 1
         uses: easingthemes/ssh-deploy@main
         env:
