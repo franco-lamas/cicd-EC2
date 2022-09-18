@@ -36,7 +36,7 @@ jobs:
     environment: 
       name: staging
       url: http://18.216.147.167/index.php
-    #needs: [Import_SQL]
+    needs: [Import_SQL]
     steps:
       - name: Checkout the files
         uses: actions/checkout@v2
