@@ -10,6 +10,7 @@ on:
 
 
 env:
+  #stagging-cicd-example
   DATABASE_HOST: ${{secrets.SERVER_REMOTE}}
   DATABASE_NAME: ${{secrets.SERVER_DB_NAME}}
   DATABASE_USERNAME: ${{secrets.SERVER_DB_USERNAME}}
@@ -35,14 +36,14 @@ jobs:
     runs-on: ubuntu-latest
     environment: 
       name: staging
-      url: http://18.216.147.167/index.php
+      url: http://deploy-ec2-test.duckdns.org/index.php
     needs: [Import_SQL]
     steps:
       - name: Checkout the files
         uses: actions/checkout@v2
       - name: Clean EC2
         run: | 
-              sudo rm -r /var/www/html/
+              sudo rm -r ${{ secrets.TARGET_DIR_STAGING }}
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@main
         env:
@@ -60,11 +61,16 @@ jobs:
     runs-on: ubuntu-latest
     environment: 
       name: production
-      url: http://18.118.199.215/index.php
+      url: http://deploy-ec2-prod.duckdns.org/index.php
     needs: [Deploy_staging]
     steps:
       - name: Checkout the files
         uses: actions/checkout@v2
+
+      - name: Clean EC2
+        run: | 
+              sudo rm -r ${{ secrets.TARGET_DIR_PRODUCTION }}
+
       - name: Deploy to Server 1
         uses: easingthemes/ssh-deploy@main
         env:
